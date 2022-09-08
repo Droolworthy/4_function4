@@ -2,7 +2,6 @@
 
 namespace _4_function4
 {
-
     internal class Program
     {
         static void Main(string[] args)
