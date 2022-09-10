@@ -27,10 +27,9 @@ namespace _4_function4
                 { '#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
                 { '#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
             };
-
+            
             while (canExitMethod)
             {
-
                 for (int i = 0; i < map.GetLength(0); i++)
                 {
                     for (int j = 0; j < map.GetLength(1); j++)
@@ -40,45 +39,14 @@ namespace _4_function4
 
                     Console.WriteLine();
                 }
+
                 Character(ref horizontalMovement, ref verticalMovement);
 
-                ConsoleKeyInfo charKey = Console.ReadKey();
-
-                switch (charKey.Key)
-                {
-                    case ConsoleKey.UpArrow:
-                        if (map[verticalMovement - 1, horizontalMovement] != '#')
-                        {
-                            verticalMovement--;
-                        }
-                        break;
-                    case ConsoleKey.DownArrow:
-                        if (map[verticalMovement + 1, horizontalMovement] != '#')
-                        {
-                            verticalMovement++;
-                        }
-                        break;
-                    case ConsoleKey.LeftArrow:
-                        if (map[verticalMovement, horizontalMovement - 1] != '#')
-                        {
-                            horizontalMovement--;
-                        }
-                        break;
-                    case ConsoleKey.RightArrow:
-                        if (map[verticalMovement, horizontalMovement + 1] != '#')
-                        {
-                            horizontalMovement++;
-                        }
-                        break;
-                }
-
-                Console.Clear();
-            }
-
-            СharacterЬovement(ref map, ref verticalMovement, ref horizontalMovement);
+                СharacterMovement(ref map, ref verticalMovement, ref horizontalMovement);
+            }                                               
         }
 
-        static void СharacterЬovement(ref char[,] map, ref int verticalMovement, ref int horizontalMovement)
+        static void СharacterMovement(ref char[,] map, ref int verticalMovement, ref int horizontalMovement)
         {
             ConsoleKeyInfo charKey = Console.ReadKey();
 
