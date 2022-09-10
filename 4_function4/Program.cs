@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace _4_function4
 {
@@ -6,16 +6,11 @@ namespace _4_function4
     {
         static void Main(string[] args)
         {
-            Map();
-        }
-
-        static void Map()
-        {
-            int userX = 2;
-            int userY = 20;
+            int verticalMovement = 2;
+            int horizontalMovement = 20;
             bool canExitMethod = true;
             Console.CursorVisible = false;
-            char[,] map = { 
+            char[,] map = {
                 { '#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
                 { '#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
                 { '#',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#',' ',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ','#'},
@@ -36,50 +31,92 @@ namespace _4_function4
             while (canExitMethod)
             {
 
-                for(int i = 0; i < map.GetLength(0); i++)
+                for (int i = 0; i < map.GetLength(0); i++)
                 {
-                    for(int j = 0; j < map.GetLength(1); j++)
+                    for (int j = 0; j < map.GetLength(1); j++)
                     {
                         Console.Write(map[i, j]);
                     }
 
                     Console.WriteLine();
                 }
+                Character(ref horizontalMovement, ref verticalMovement);
 
-                Console.SetCursorPosition(userY, userX);
-                Console.Write('@');
                 ConsoleKeyInfo charKey = Console.ReadKey();
 
                 switch (charKey.Key)
                 {
                     case ConsoleKey.UpArrow:
-                        if (map[userX - 1, userY] != '#')
+                        if (map[verticalMovement - 1, horizontalMovement] != '#')
                         {
-                            userX--;
+                            verticalMovement--;
                         }
                         break;
                     case ConsoleKey.DownArrow:
-                        if (map[userX + 1, userY] != '#')
+                        if (map[verticalMovement + 1, horizontalMovement] != '#')
                         {
-                            userX++;
+                            verticalMovement++;
                         }
                         break;
                     case ConsoleKey.LeftArrow:
-                        if (map[userX, userY - 1] != '#')
+                        if (map[verticalMovement, horizontalMovement - 1] != '#')
                         {
-                            userY--;
+                            horizontalMovement--;
                         }
                         break;
                     case ConsoleKey.RightArrow:
-                        if (map[userX, userY + 1] != '#')
+                        if (map[verticalMovement, horizontalMovement + 1] != '#')
                         {
-                            userY++;
+                            horizontalMovement++;
                         }
                         break;
                 }
 
                 Console.Clear();
-            }                      
+            }
+
+            СharacterЬovement(ref map, ref verticalMovement, ref horizontalMovement);
+        }
+
+        static void СharacterЬovement(ref char[,] map, ref int verticalMovement, ref int horizontalMovement)
+        {
+            ConsoleKeyInfo charKey = Console.ReadKey();
+
+            switch (charKey.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    if (map[verticalMovement - 1, horizontalMovement] != '#')
+                    {
+                        verticalMovement--;
+                    }
+                    break;
+                case ConsoleKey.DownArrow:
+                    if (map[verticalMovement + 1, horizontalMovement] != '#')
+                    {
+                        verticalMovement++;
+                    }
+                    break;
+                case ConsoleKey.LeftArrow:
+                    if (map[verticalMovement, horizontalMovement - 1] != '#')
+                    {
+                        horizontalMovement--;
+                    }
+                    break;
+                case ConsoleKey.RightArrow:
+                    if (map[verticalMovement, horizontalMovement + 1] != '#')
+                    {
+                        horizontalMovement++;
+                    }
+                    break;
+            }
+
+            Console.Clear();
+        }
+
+        static void Character(ref int horizontalMovement, ref int verticalMovement)
+        {
+            Console.SetCursorPosition(horizontalMovement, verticalMovement);
+            Console.Write('@');
         }
     }
 }
