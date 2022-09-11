@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 namespace _4_function4
 {
@@ -8,45 +9,49 @@ namespace _4_function4
         {
             int verticalMovement = 2;
             int horizontalMovement = 20;
-            bool canExitMethod = true;
-            Console.CursorVisible = false;
-            char[,] map = {
-                { '#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
-                { '#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-                { '#',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#',' ',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ','#'},
-                { '#',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ','#'},
-                { '#',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ','#','#','#',' ',' ',' ',' ','#','#',' ',' ',' ',' ','#','#','#',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ','#'},
-                { '#',' ',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-                { '#',' ',' ',' ',' ',' ',' ',' ','#',' ',' ','#','#','#','#','#','#','#',' ',' ','#','#',' ',' ','#','#','#','#','#','#','#',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-                { '#',' ',' ',' ',' ',' ',' ',' ',' ','#',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-                { '#',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#',' ',' ','#','#','#','#','#','#','#','#','#','#','#','#','#','#',' ',' ','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-                { '#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',' ',' ','#','#','#','#','#','#','#','#','#','#','#','#',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-                { '#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-                { '#',' ',' ',' ',' ',' ',' ',' ','#','#',' ',' ',' ','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#',' ',' ',' ','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-                { '#',' ',' ',' ',' ',' ',' ','#','#','#','#','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#','#','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-                { '#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-                { '#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
-            };
+            bool canExitMethod = true;          
+            char[,] map = ReadMap("Map");
             
             while (canExitMethod)
             {
-                for (int i = 0; i < map.GetLength(0); i++)
-                {
-                    for (int j = 0; j < map.GetLength(1); j++)
-                    {
-                        Console.Write(map[i, j]);
-                    }
+                DrawMap(map);
 
-                    Console.WriteLine();
-                }
+                DrawCharacter(ref horizontalMovement, ref verticalMovement);
 
-                Character(ref horizontalMovement, ref verticalMovement);
-
-                СharacterMovement(ref map, ref verticalMovement, ref horizontalMovement);
+                СontrolsMovementsCharacter(ref map, ref verticalMovement, ref horizontalMovement);
             }                                               
         }
 
-        static void СharacterMovement(ref char[,] map, ref int verticalMovement, ref int horizontalMovement)
+        static void DrawMap(char[,] map)
+        {
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    Console.Write(map[i, j]);
+                }
+
+                Console.WriteLine();
+            }
+        }
+
+        static char[,] ReadMap(string mapName)
+        {
+            string[] newFile = File.ReadAllLines($"Map/{mapName}.txt");
+            char[,] map = new char[newFile.Length, newFile[0].Length];
+
+            for(int i = 0; i < map.GetLength(0); i++)
+            {
+                for(int j = 0; j < map.GetLength(1); j++)
+                {
+                    map[i,j] = newFile[i][j];
+                }
+            }
+
+            return map;
+        }
+
+        static void СontrolsMovementsCharacter(ref char[,] map, ref int verticalMovement, ref int horizontalMovement)
         {
             ConsoleKeyInfo charKey = Console.ReadKey();
 
@@ -81,8 +86,9 @@ namespace _4_function4
             Console.Clear();
         }
 
-        static void Character(ref int horizontalMovement, ref int verticalMovement)
+        static void DrawCharacter(ref int horizontalMovement, ref int verticalMovement)
         {
+            Console.CursorVisible = false;
             Console.SetCursorPosition(horizontalMovement, verticalMovement);
             Console.Write('@');
         }
