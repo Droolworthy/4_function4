@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 
 namespace _4_function4
 {
@@ -7,19 +6,89 @@ namespace _4_function4
     {
         static void Main(string[] args)
         {
-            int verticalMovement = 2;
-            int horizontalMovement = 20;
-            bool canExitMethod = true;          
-            char[,] map = ReadMap("Map");
-            
+            int verticalCoordinatesCharacter = 2;
+            int horizontalCoordinatesCharacter = 20;
+            int verticalMovement = 0;
+            int horizontalMovement = 1;
+            bool canExitMethod = true;
+            char[,] map = {
+                { '#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
+                { '#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+                { '#',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#',' ',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ','#'},
+                { '#',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ','#'},
+                { '#',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ','#','#','#',' ',' ',' ',' ','#','#',' ',' ',' ',' ','#','#','#',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ','#'},
+                { '#',' ',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+                { '#',' ',' ',' ',' ',' ',' ',' ','#',' ',' ','#','#','#','#','#','#','#',' ',' ','#','#',' ',' ','#','#','#','#','#','#','#',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+                { '#',' ',' ',' ',' ',' ',' ',' ',' ','#',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+                { '#',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#',' ',' ','#','#','#','#','#','#','#','#','#','#','#','#','#','#',' ',' ','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+                { '#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',' ',' ','#','#','#','#','#','#','#','#','#','#','#','#',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+                { '#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+                { '#',' ',' ',' ',' ',' ',' ',' ','#','#',' ',' ',' ','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#',' ',' ',' ','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+                { '#',' ',' ',' ',' ',' ',' ','#','#','#','#','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#','#','#','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+                { '#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+                { '#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
+            };
+
+            DrawMap(map);
+
+            DrawCharacter(ref verticalCoordinatesCharacter, ref horizontalCoordinatesCharacter);
+
             while (canExitMethod)
             {
-                DrawMap(map);
+                if (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo key = Console.ReadKey();
 
-                DrawCharacter(ref horizontalMovement, ref verticalMovement);
+                    ChangeDirection(key, ref verticalMovement, ref horizontalMovement);
 
-                СontrolsMovementsCharacter(ref map, ref verticalMovement, ref horizontalMovement);
-            }                                               
+                    if (map[verticalCoordinatesCharacter + verticalMovement, horizontalCoordinatesCharacter + horizontalMovement] != '#')
+                    {
+                        MakeMove(ref verticalCoordinatesCharacter, ref horizontalCoordinatesCharacter, ref verticalMovement, ref horizontalMovement);
+                    }
+                }
+            }
+        }
+
+        static void MakeMove(ref int verticalCoordinatesCharacter, ref int horizontalCoordinatesCharacter, ref int verticalMovement, ref int horizontalMovement)
+        {
+            Console.SetCursorPosition(horizontalCoordinatesCharacter, verticalCoordinatesCharacter);
+            Console.Write(" ");
+
+            verticalCoordinatesCharacter += verticalMovement;
+            horizontalCoordinatesCharacter += horizontalMovement;
+
+            Console.SetCursorPosition(horizontalCoordinatesCharacter, verticalCoordinatesCharacter);
+            Console.Write('@');
+        }
+
+        static void ChangeDirection(ConsoleKeyInfo key, ref int verticalMovement, ref int horizontalMovement)
+        {
+            switch (key.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    verticalMovement = -1;
+                    horizontalMovement = 0;
+                    break;
+                case ConsoleKey.DownArrow:
+                    verticalMovement = 1;
+                    horizontalMovement = 0;
+                    break;
+                case ConsoleKey.LeftArrow:
+                    verticalMovement = 0;
+                    horizontalMovement = -1;
+                    break;
+                case ConsoleKey.RightArrow:
+                    verticalMovement = 0;
+                    horizontalMovement = 1;
+                    break;
+            }
+        }
+
+        static void DrawCharacter(ref int verticalCoordinatesCharacter, ref int horizontalCoordinatesCharacter)
+        {
+            Console.CursorVisible = false;
+            Console.SetCursorPosition(horizontalCoordinatesCharacter, verticalCoordinatesCharacter);
+            Console.Write('@');
         }
 
         static void DrawMap(char[,] map)
@@ -34,63 +103,5 @@ namespace _4_function4
                 Console.WriteLine();
             }
         }
-
-        static char[,] ReadMap(string mapName)
-        {
-            string[] newFile = File.ReadAllLines($"Map/{mapName}.txt");
-            char[,] map = new char[newFile.Length, newFile[0].Length];
-
-            for(int i = 0; i < map.GetLength(0); i++)
-            {
-                for(int j = 0; j < map.GetLength(1); j++)
-                {
-                    map[i,j] = newFile[i][j];
-                }
-            }
-
-            return map;
-        }
-
-        static void СontrolsMovementsCharacter(ref char[,] map, ref int verticalMovement, ref int horizontalMovement)
-        {
-            ConsoleKeyInfo charKey = Console.ReadKey();
-
-            switch (charKey.Key)
-            {
-                case ConsoleKey.UpArrow:
-                    if (map[verticalMovement - 1, horizontalMovement] != '#')
-                    {
-                        verticalMovement--;
-                    }
-                    break;
-                case ConsoleKey.DownArrow:
-                    if (map[verticalMovement + 1, horizontalMovement] != '#')
-                    {
-                        verticalMovement++;
-                    }
-                    break;
-                case ConsoleKey.LeftArrow:
-                    if (map[verticalMovement, horizontalMovement - 1] != '#')
-                    {
-                        horizontalMovement--;
-                    }
-                    break;
-                case ConsoleKey.RightArrow:
-                    if (map[verticalMovement, horizontalMovement + 1] != '#')
-                    {
-                        horizontalMovement++;
-                    }
-                    break;
-            }
-
-            Console.Clear();
-        }
-
-        static void DrawCharacter(ref int horizontalMovement, ref int verticalMovement)
-        {
-            Console.CursorVisible = false;
-            Console.SetCursorPosition(horizontalMovement, verticalMovement);
-            Console.Write('@');
-        }
     }
-}
+}       
